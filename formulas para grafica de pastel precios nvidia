@@ -1,1 +1,31 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 
+# Cargar el archivo CSV (asegúrate de que la ruta sea correcta)
+df = pd.read_csv(r"C:\Users\ubere\Desktop\DATA\BASE DE DATOS\EMPRESAS\nvidia_data.csv")
+
+# Convertir la columna de fechas a formato datetime
+df["Date"] = pd.to_datetime(df["Date"], dayfirst=True)
+
+# Crear rangos de precios de cierre
+bins = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+labels = ["0-50", "51-100", "101-150", "151-200", "201-250", "251-300", "301-350", "351-400", "401-450", "451-500"]
+
+# Asignar cada precio de cierre a su rango correspondiente
+df["Rango_Precio"] = pd.cut(df["Close"], bins=bins, labels=labels)
+
+# Contar la cantidad de registros en cada rango de precio
+precio_rangos = df["Rango_Precio"].value_counts()
+
+# Gráfico de pastel
+plt.figure(figsize=(8, 8))
+plt.pie(precio_rangos, labels=precio_rangos.index, autopct='%1.1f%%', startangle=90, colors=plt.cm.Paired.colors)
+plt.title("Distribución de Precios de Cierre de Nvidia en Rango de Precios", fontsize=14)
+plt.axis('equal')  # Para que el gráfico sea un círculo
+
+# Mostrar gráfico
+plt.show()
+
+# Si deseas guardar el gráfico en un archivo
+plt.savefig(r"C:\Users\ubere\Desktop\DATA\BASE DE DATOS\EMPRESAS\grafico_pastel_nvidia.png")
