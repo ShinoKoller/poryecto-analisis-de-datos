@@ -1,0 +1,28 @@
+#formula para sacar la mediana y media con excepcion con los formatos de fecha#
+
+
+
+import pandas as pd
+
+# Cargar los datos
+df = pd.read_csv("nvidia_data.csv")
+
+# Asegurar que la columna 'Date' sea reconocida como fecha
+df["Date"] = pd.to_datetime(df["Date"], format="%d/%m/%Y")
+
+
+
+# Función para calcular media y mediana
+def calcular_media_mediana():
+    """Calcula e imprime la media y la mediana del precio de cierre."""
+    if "Close" in df.columns:  # Verificar que la columna existe
+        media_precio = df["Close"].mean()
+        mediana_precio = df["Close"].median()
+        
+        print(f"📊 Precio Promedio (Media): {media_precio:.2f}")
+        print(f"📊 Precio Mediano (Mediana): {mediana_precio:.2f}")
+    else:
+        print("⚠️ La columna 'Close' no se encuentra en los datos.")
+
+# Llamamos a la función para mostrar los resultados
+calcular_media_mediana()
